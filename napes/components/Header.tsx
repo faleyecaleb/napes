@@ -13,10 +13,10 @@ const Header: React.FC = () => {
       <div className='flex flex-col space-y-4 justify-center items-center'>
         <div className='flex flex-col items-end justify-center'>
           <h1 className={`hidden md:text-xl md:block  lg:block lg:text-2xl font-semibold tracking-wide`}>National Association Of Polytechnic Engineering Student (NAPES)</h1>
-          <span className='hidden md:block text-orange-500 font-bold '>YCT CHAPTER</span>
+          <span className='hidden md:block text-red-500 font-bold '>YCT CHAPTER</span>
         </div>
         <nav>
-          <ul ref={navRef} className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl '>
+          <ul className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl '>
             <li className='hover:text-green-800'><a href="#">Home</a></li>
             <li className='hover:text-green-800'><a href="#">Department</a></li>
             <li className='hover:text-green-800'><a href="#">Account</a></li>
