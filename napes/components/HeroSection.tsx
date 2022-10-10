@@ -6,7 +6,7 @@ import Image from 'next/image'
 const HeroSection = () => {
 
   return (
-    <section className='flex justify-center text-white space-x-20 py-10 items-center bg-gradient-to-r from-green-500 to-green-700  w-full'>
+    <section className='flex justify-center text-white space-x-20 py-20 items-center bg-green-400  w-full'>
       <div className='flex flex-col justify-around sm:justify-around h-60  w-full px-10 md:w-full lg:w-1/2'>
         <h2 className='md:text-4xl font-extrabold text-5xl'>Engineering at a whole new level</h2>
         <p className='text-lg sm:text-xl'>Pay your dues to enjoy unlimited benefits from NAPES and avoid denial of semester registration</p>

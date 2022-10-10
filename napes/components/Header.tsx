@@ -2,13 +2,12 @@ import Image from 'next/image'
 import React from 'react'
 
 const Header: React.FC = () => {
-  const navRef = React.useRef()
-  console.log(navRef);
+
 
   return (
     <header className='flex justify-between items-center'>
-      <div className=''>
-        <Image className='' objectFit='contain' src={"/images/napes.png"} width="120" height="120"></Image>
+      <div className='w-24 ml-10 md:ml-20'>
+        <img className='w-full' src="/images/napes.png" alt="" />
       </div>
       <div className='flex flex-col space-y-4 justify-center items-center'>
         <div className='flex flex-col items-end justify-center'>
@@ -16,7 +15,7 @@ const Header: React.FC = () => {
           <span className='hidden md:block text-orange-500 font-bold '>YCT CHAPTER</span>
         </div>
         <nav>
-          <ul ref={navRef} className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl '>
+          <ul className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl '>
             <li className='hover:text-green-800'><a href="#">Home</a></li>
             <li className='hover:text-green-800'><a href="#">Department</a></li>
             <li className='hover:text-green-800'><a href="#">Account</a></li>
@@ -25,8 +24,8 @@ const Header: React.FC = () => {
           </ul>
         </nav>
       </div>
-      <div className='flex'>
-        <Image src={"/images/yabatechLogo.png"} objectFit='contain' width={130} height={105}></Image>
+      <div className='w-20 mr-10 md:mr-20'>
+        <img className='w-full' src="/images/yabatechLogo.png" alt="" />
       </div>
     </header>
   )
