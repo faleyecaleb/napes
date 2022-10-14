@@ -10,7 +10,7 @@ const Footer = () => {
       <img className='hidden md:block bg-white rounded-full ml-8' width={150} height={150} src="/images/napes.png" alt="" />
       <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-8 md:grid-cols-4 text-slate-200  py-10 px-10 border-b-2'>
         <div className=''>
-          <p className='text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa magni, quidem ipsum dolorem quod tenetur distinctio neque rem quibusdam dicta laborum sed, </p>
+          <p className='sm:text-center md:text-start'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa magni, quidem ipsum dolorem quod tenetur distinctio neque rem quibusdam dicta laborum sed, </p>
         </div>
         <div className='mx-auto sm:mx-0'>
           <h2 className='text-2xl ml-7 font-bold text-center sm:text-start'>Contact</h2>
