@@ -9,12 +9,10 @@ import PrincipalOfficers from '../components/HomeComponents/PrincipalOfficer/Pri
 const Home: NextPage = () => {
   return (
     <>
-      <Header />
       <HeroSection />
       <NewsEvent />
       <ExecutiveMembers />
       <PrincipalOfficers />
-      <Footer />
     </>
   )
 }

@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import React from 'react'
+import React from 'react';
+import Link from 'next/link'
 
 const Header: React.FC = () => {
   const navRef = React.useRef()
@@ -17,11 +18,11 @@ const Header: React.FC = () => {
         </div>
         <nav>
           <ul className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl font-bold'>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><a href="#">Home</a></li>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><a href="#">Department</a></li>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><a href="#">Account</a></li>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><a href="#">Gallery</a></li>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><a href="#">Contact</a></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/">Home</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/department">Department</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/account">Account</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/gallery">Gallery</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/contact">Contact</Link></li>
           </ul>
         </nav>
       </div>
