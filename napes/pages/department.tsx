@@ -1,8 +1,11 @@
 import React from 'react'
+import BgImage from '../components/Bg-Image'
 
-const department = () => {
+const department: React.FC = () => {
   return (
-    <div>department</div>
+    <div>
+      <BgImage />
+    </div>
   )
 }
 

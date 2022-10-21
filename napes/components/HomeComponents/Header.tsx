@@ -17,11 +17,12 @@ const Header: React.FC = () => {
           <span className='hidden md:block text-red-500 font-bold '>YCT CHAPTER</span>
         </div>
         <nav>
-          <ul className='hidden md:flex sm:flex items-end lg:items-end space-x-12 text-xl font-bold'>
+          <ul className='hidden font-sans md:flex sm:flex items-end lg:items-end space-x-12 text-xl'>
             <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/">Home</Link></li>
             <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/department">Department</Link></li>
             <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/account">Account</Link></li>
-            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/gallery">Gallery</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/executives">Executives</Link></li>
+            <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/principalOfficers">Principal Officers</Link></li>
             <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/contact">Contact</Link></li>
           </ul>
         </nav>
