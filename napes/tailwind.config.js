@@ -14,6 +14,10 @@ module.exports = {
         'bgMechanical': "url('../public/images/departments/mechanicalE.jpg')",
         'bgElectrical': "url('../public/images/departments/electricalE.jpg')",
         'bgComputer': "url('../public/images/departments/computerE.jpg')",
+
+      },
+      colors: {
+        'overlay': "rgba(10, 10, 10, .96)"
       }
     },
   },

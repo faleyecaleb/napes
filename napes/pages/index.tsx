@@ -1,43 +1,49 @@
+import { useState } from 'react'
 import type { NextPage } from 'next'
-<<<<<<< HEAD
-<<<<<<< HEAD
 import Departments from '../components/HomeComponents/Departments/Departments'
 import ExecutiveMembers from '../components/HomeComponents/Executives/ExecutiveMembers'
-=======
-import ExecutiveMembers from '../components/HomeComponents/Executives/ExecutiveMembers'
-import Footer from '../components/HomeComponents/Footer/Footer'
-import Header from '../components/HomeComponents/Header'
->>>>>>> executives
 import HeroSection from '../components/HomeComponents/HeroSection'
 import NewsEvent from '../components/HomeComponents/NewsEvent/NewsEvent'
 import PrincipalOfficers from '../components/HomeComponents/PrincipalOfficer/PrincipalOfficers'
-=======
-import Head from 'next/head'
-import Image from 'next/image'
-import ExecutiveMembers from '../components/ExecutiveMembers'
-import Header from '../components/Header'
-import HeroSection from '../components/HeroSection'
->>>>>>> main
+import RegisterModal from '../components/RegisterModal'
+import Header from '../components/HomeComponents/Header'
+import LoginModal from '../components/LoginModal'
+import { useAuth } from '../context/AuthContext'
+
+
+
 
 const Home: NextPage = () => {
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(true);
+  const { user } = useAuth();
+
+
   return (
     <>
-      <HeroSection />
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <Departments />
+      {
+        user ?
 
-      <ExecutiveMembers />
-      <PrincipalOfficers />
-      <NewsEvent />
-=======
-      <NewsEvent />
-      <ExecutiveMembers />
-      <PrincipalOfficers />
->>>>>>> executives
-=======
-      <ExecutiveMembers />
->>>>>>> main
+          <div>
+            {/* {showRegisterModal && <RegisterModal registerModal={setShowRegisterModal} loginModal={setShowLoginModal} />}
+
+            {showLoginModal && <LoginModal modal={showLoginModal} registerModal={setShowRegisterModal} loginModal={setShowLoginModal} />} */}
+            <Header modalControl={setShowRegisterModal} />
+            <HeroSection />
+
+            <Departments />
+
+            <ExecutiveMembers />
+            <PrincipalOfficers />
+            <NewsEvent />
+          </div>
+          :
+          <div>
+            {showRegisterModal && <RegisterModal registerModal={setShowRegisterModal} loginModal={setShowLoginModal} />}
+
+            {showLoginModal && <LoginModal modal={showLoginModal} registerModal={setShowRegisterModal} loginModal={setShowLoginModal} />}
+          </div>
+      }
     </>
   )
 }

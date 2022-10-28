@@ -18,18 +18,20 @@ const contact = () => {
         <ContactCard title='Address' icon={<MdLocationPin color='white' />} desc1='105 Herbert Macaulay Way' />
       </div>
 
-      <div>
-        <img src="/images/contact-img.png" alt="" />
-        <div>
-          <h2>Send Us Message</h2>
-          <form>
-            <input placeholder='Name' type="text" required />
-            <input placeholder='email' type="email" required />
-            {/* <textarea name="" id="" cols={"30"} rows="10"></textarea> */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:px-20 my-20'>
+        <img className='lg:col-span-2' src="/images/contact-img.png" alt="" />
+        <div >
+          <h2 className='text-2xl font-sans font-bold text-center'>Send Us Message</h2>
+          <form className='bg-gray-800 w-full shadow-lg px-20 rounded py-20 flex flex-col  justify-center space-y-5'>
+            <input className='input' placeholder='Name' type="text" required />
+            <input className='input' placeholder='email' type="email" required />
+            <input className='input' placeholder='text' type="text" />
+            <textarea name="" id="" cols={"30"} rows="5"></textarea>
+            <button className='button hover: shadow-full transition ease-in-out duration-200 hover:bg-cyan-900 hover:text-white'>Send</button>
           </form>
         </div>
       </div>
-    </section>
+    </section >
   )
 }
 
