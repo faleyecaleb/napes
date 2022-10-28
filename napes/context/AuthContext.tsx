@@ -16,7 +16,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const [loader, setLoader] = useState(false)
   const [isExist, setIsExist] = useState(false)
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [RegErrorMessage, setErrorMessage] = useState("");
+  const [LogErrorMessage, setLogErrorMessage] = useState("")
   const router = useRouter()
   const [data, setData] = useState({
     name: '',
@@ -68,23 +69,16 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   const register = (email: string, password: string) => {
     return createUserWithEmailAndPassword(auth, email, password).then(cred => {
-      const objID = cred.user.uid;
-      const fil = allUser.some((o) => data.matric === o.matric)
-      if (!fil) {
-        addUser(cred.user.uid, data.name, `${cred.user.email}`, data.matric, data.department)
-        // isExist(false)
-        // route.push("/")
-        console.log("Not Inside");
+      addUser(cred.user.uid, data.name, `${cred.user.email}`, data.matric, data.department)
+      // const objID = cred.user.uid;
+      // const fil = allUser.some((o) => data.matric === o.matric)
+      // if (!fil) {
 
-      } else {
-        // isExist(true)
-        // setTimeout(() => {
-        //   isExist(false)
-        // }, 2000);
 
-        console.log("Inside...")
+      // } else {
+      //   console.log("Inside...")
 
-      }
+      // }
 
     }).catch(error => {
       console.log(error.code);
@@ -108,14 +102,41 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   }
   const login = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(auth, email, password).then((cred) => [
+
+    ]).catch(error => {
+      setLoader(false)
+      console.log(error.code);
+
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setLogErrorMessage("You are not Registered!");
+          break;
+        case 'auth/internal-error':
+          setLogErrorMessage("Please enter your password correctly...")
+
+        case 'auth/wrong-password':
+          setLogErrorMessage("Please enter a correct password")
+
+          break;
+        case 'auth/missing-email':
+          setLogErrorMessage("Please Enter An Email Address");
+          break;
+        case 'auth/invalid-email':
+          setLogErrorMessage("Please Enter A Valid Email Address");
+          break;
+
+      }
+
+    })
   }
 
   const logout = async () => {
     setUser(null);
+    setLoader(false)
     await signOut(auth)
   }
-  return <AuthContext.Provider value={{ user, allUser, login, register, logout, setName, name, data, setData, errorMessage, setLoader, loader }}>
+  return <AuthContext.Provider value={{ user, allUser, login, register, logout, setName, name, data, setData, RegErrorMessage, LogErrorMessage, setLoader, loader }}>
     {loading ? null : children}
   </AuthContext.Provider>
 }

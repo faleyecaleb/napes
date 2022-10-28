@@ -6,8 +6,7 @@ import Spinner from './Spinner';
 
 
 const LoginModal = ({ registerModal, loginModal, modal }) => {
-  const { user, login } = useAuth()
-  const [loader, setLoader] = useState(false)
+  const { user, login, LogErrorMessage, setLoader, loader } = useAuth()
   const router = useRouter()
   const [data, setData] = useState({
     name: '',
@@ -25,11 +24,15 @@ const LoginModal = ({ registerModal, loginModal, modal }) => {
     try {
       await login(data.email, data.password);
       if (user) {
+        setLoader(false)
         loginModal(false);
+
         router.push("/contact")
       }
     } catch (error) {
+      setLoader(false)
       console.log(error);
+
     }
   }
 
@@ -47,7 +50,9 @@ const LoginModal = ({ registerModal, loginModal, modal }) => {
       <div className='-translate-y-1/2 -translate-x-1/2 left-1/2 fixed top-1/2 flex flex-col items-center justify-center'>
 
         <form className='bg-white w-96 px-10 py-5 shadow-md rounded flex flex-col  justify-center space-y-5'>
-          <h2 className='text-2xl text-blue-900 font-bold text-center'>Login</h2>
+          <img className='w-1/3 mx-auto pb-2' src="/images/napes.png" alt="Napes Brand" />
+          <h2 className={!LogErrorMessage && `text-2xl bg-red-600 px-5 w-full py-2 rounded shadow text-white font-bold text-center`}>{!LogErrorMessage && 'Login'}</h2>
+          <h2 className={LogErrorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{LogErrorMessage}</h2>
           <div>
             <label className='text-xl' htmlFor="departmenet">Email: </label>
             <input className='input' value={data.email} onChange={(e) => setData({

@@ -15,7 +15,7 @@ interface Props {
 
 
 const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) => {
-  const { user, register, setName, name, data, setData, errorMessage, setLoader, loader } = useAuth();
+  const { user, register, setName, name, data, setData, RegErrorMessage, setLoader, loader } = useAuth();
   const router = useRouter()
 
   // const [data, setData] = useState({
@@ -60,8 +60,8 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
 
         <form className='bg-white w-96 px-10 py-5 shadow-md rounded flex flex-col  justify-center'>
           <img className='w-1/3 mx-auto pb-2' src="/images/napes.png" alt="Napes Brand" />
-          <h2 className={!errorMessage && `text-2xl bg-red-600 px-5 w-full py-2 rounded shadow text-white font-bold text-center`}>{!errorMessage && 'Register'}</h2>
-          <h2 className={errorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{errorMessage}</h2>
+          <h2 className={!RegErrorMessage && `text-2xl bg-red-600 px-5 w-full py-2 rounded shadow text-white font-bold text-center`}>{!RegErrorMessage && 'Register'}</h2>
+          <h2 className={RegErrorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{RegErrorMessage}</h2>
           <div className='flex flex-col'>
             <label className='text-xl' htmlFor="name">Name: </label>
             <input className='input ' value={data.name} onChange={(e: any) => setData({
