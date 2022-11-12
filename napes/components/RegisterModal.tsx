@@ -45,7 +45,7 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
     try {
 
       await register(data.email, data.password)
-      router.push("/");
+      router.push("/registerSuccess");
 
     } catch (error) {
       console.log(error);
@@ -64,21 +64,21 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
           <h2 className={RegErrorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{RegErrorMessage}</h2>
           <div className='flex flex-col'>
             <label className='text-xl' htmlFor="name">Name: </label>
-            <input className='input ' value={data.name} onChange={(e: any) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.name} onChange={(e: any) => setData({
               ...data, name: e.target.value
             })} type="text" required />
           </div>
 
           <div>
             <label className='text-xl' htmlFor="departmenet">Email: </label>
-            <input className='input' value={data.email} onChange={(e: any) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.email} onChange={(e: any) => setData({
               ...data, email: e.target.value
             })} type="text" required />
           </div>
 
           <div>
             <label className='text-xl' htmlFor="name">Department: </label>
-            <input className='input' value={data.departmenet} onChange={(e: any) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.departmenet} onChange={(e: any) => setData({
               ...data, department: e.target.value
             })} type="text" required />
           </div>
@@ -87,14 +87,14 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
 
           <div>
             <label className='text-xl' htmlFor="departmenet">Matric: </label>
-            <input className='input' value={data.matric} onChange={(e: any) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.matric} onChange={(e: any) => setData({
               ...data, matric: e.target.value
             })} type="text" required />
           </div>
 
           <div>
             <label className='text-xl' htmlFor="password">Password: </label>
-            <input className='input' value={data.password} onChange={(e: any) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.password} onChange={(e: any) => setData({
               ...data, password: e.target.value
             })} placeholder='Enter Password' type="password" required />
           </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import type { NextPage } from 'next'
 import Departments from '../components/HomeComponents/Departments/Departments'
 import ExecutiveMembers from '../components/HomeComponents/Executives/ExecutiveMembers'
@@ -8,14 +8,25 @@ import PrincipalOfficers from '../components/HomeComponents/PrincipalOfficer/Pri
 import RegisterModal from '../components/RegisterModal'
 import Header from '../components/HomeComponents/Header'
 import LoginModal from '../components/LoginModal'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext';
+import { sanityClient } from '../sanity';
+import { Data } from '../typings'
 
+interface Executives {
+  posts: [Data]
+}
+interface Principal {
+  principalOfficers: [Data]
+}
 
-
-
-const Home: NextPage = () => {
+type Props = Executives & Principal
+const Home = ({ data, posts, principalOfficers }: Props) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(true);
+
+
+
+
   const { user } = useAuth();
 
 
@@ -29,12 +40,12 @@ const Home: NextPage = () => {
 
             {showLoginModal && <LoginModal modal={showLoginModal} registerModal={setShowRegisterModal} loginModal={setShowLoginModal} />} */}
             <Header modalControl={setShowRegisterModal} />
-            <HeroSection />
+            <HeroSection data={data} />
 
             <Departments />
 
-            <ExecutiveMembers />
-            <PrincipalOfficers />
+            <ExecutiveMembers executiveData={posts} />
+            <PrincipalOfficers officersData={principalOfficers} />
             <NewsEvent />
           </div>
           :
@@ -49,3 +60,17 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getServerSideProps() {
+  // const { URL } = process.env;
+
+  const res = await fetch(process.env.NEXT_PUBLIC_API_ROUTE + '/');
+  const data = await res.json();
+  const query = `*[_type == "executives"]`
+  const query1 = `*[_type == "principalOfficers"]`
+  const principalOfficers = await sanityClient.fetch(query1)
+  const posts = await sanityClient.fetch(query)
+  return {
+    props: { data, posts, principalOfficers }
+  }
+}

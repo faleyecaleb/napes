@@ -55,7 +55,7 @@ const LoginModal = ({ registerModal, loginModal, modal }) => {
           <h2 className={LogErrorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{LogErrorMessage}</h2>
           <div>
             <label className='text-xl' htmlFor="departmenet">Email: </label>
-            <input className='input' value={data.email} onChange={(e) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.email} onChange={(e) => setData({
               ...data, email: e.target.value
             })} type="text" required />
           </div>
@@ -65,7 +65,7 @@ const LoginModal = ({ registerModal, loginModal, modal }) => {
           })} placeholder='Matric No' type="text" /> */}
           <div>
             <label className='text-xl' htmlFor="password">Password: </label>
-            <input className='input' value={data.password} onChange={(e) => setData({
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.password} onChange={(e) => setData({
               ...data, password: e.target.value
             })} placeholder='Enter Password' type="password" required />
           </div>

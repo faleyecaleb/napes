@@ -1,17 +1,36 @@
+import Link from 'next/link';
 import React from 'react'
+import { sanityClient, urlFor } from '../../../sanity';
+import { Data } from '../../../typings';
 import PrincipalOfficersCard from './PrincipalOfficersCard';
 
 
+interface Props {
+  officersData: [Data]
+}
 
-const PrincipalOfficers: React.FC = () => {
+
+const PrincipalOfficers = ({ officersData }: Props) => {
   return (
-    <section className='bg-slate-100 py-10'>
-      <h2 className='text-4xl font-bold  text-center'>Principal Officers</h2>
-      <div className='grid  gap-y-5 sm:grid-cols-1 md:grid-cols-2 sm:px-5 py-10 md:px-20 sm:gap-5'>
-        <PrincipalOfficersCard title='Speaker' name='John Doe' desc='Hi, I am the Speaker of NAPES Yabatech chapter and i am a boy with big head. If you dont get it, forget about it' avatar='/images/yabatechLogo.png' bgColor='bg-green-800' />
-        <PrincipalOfficersCard title='Speaker' name='John Doe' desc='I am the Speaker of NAPES Yabatech chapter and i am a boy with big head. If you dont get it, forget about it' avatar='/images/yabatechLogo.png' bgColor='bg-white' />
-        <PrincipalOfficersCard title='Speaker' name='John Doe' desc='I am the Speaker of NAPES Yabatech chapter and i am a boy with big head. If you dont get it, forget about it' avatar='/images/yabatechLogo.png' bgColor='bg-green-800 md:bg-white' />
-        <PrincipalOfficersCard title='Speaker' name='John Doe' desc='I am the Speaker of NAPES Yabatech chapter and i am a boy with big head. If you dont get it, forget about it' avatar='/images/yabatechLogo.png' bgColor='bg-white md:bg-green-800' />
+    <section className='bg-slate-100 pt-5'>
+      <div className='flex justify-between items-center md:px-16'>
+        <div className='text-center md:text-start'>
+          <h2 className='font-bold text-lg md:text-3xl capitalize font-sans text-sky-900'>Meet All Your Principal Officers</h2>
+          <p className='font-sans text-sm md:text-lg text-sky-900'>Get to know all your Principal Officers in NAPES</p>
+        </div>
+        <Link href={'/principalOfficers'} >
+          <p className='hidden cursor-pointer hover:border-b-2 hover:border-black sm:block text-sky-900'>See all &gt;&gt;</p>
+        </Link>
+      </div>
+      <div className='grid  gap-y-5 sm:grid-cols-1 md:grid-cols-2 sm:px-5 py-10 md:px-20 sm:gap-5 text-slate-200 font-sans'>
+        {
+          officersData.map((data, index) => {
+            if (index <= 3) {
+              const { name, office, description, mainImage } = data;
+              return <PrincipalOfficersCard avatar={urlFor(mainImage).url()} title={office} name={name} desc={description} bgColor={'bg-slate-800'} />
+            }
+          })
+        }
       </div>
 
     </section>
@@ -19,3 +38,4 @@ const PrincipalOfficers: React.FC = () => {
 }
 
 export default PrincipalOfficers
+

@@ -1,10 +1,10 @@
 import React from 'react'
-import BgImage from '../components/Bg-Image'
+import Image from 'next/image'
 
 const department: React.FC = () => {
   return (
     <div>
-      <BgImage />
+      <Image src={"/images/"} />
     </div>
   )
 }
