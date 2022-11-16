@@ -1,10 +1,12 @@
 import React from 'react';
 import ContactCard from '../components/ContactConponents/ContactCard';
 import { MdLocationPin, MdCall, MdEmail, MdFacebook, MdTimer } from 'react-icons/md';
+import Header from '../components/HomeComponents/Header';
 
 const contact = () => {
   return (
     <section className=''>
+      <Header />
       <div className='bg-green-100 text-center py-20'>
         <h1 className='text-4xl text-gray-800 font-sans font-bold'>Contact Us</h1>
       </div>

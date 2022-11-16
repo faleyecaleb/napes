@@ -30,7 +30,6 @@ const ExecutiveMembers = ({ executiveData }: Props) => {
         {
 
           executiveData.map((data, index) => {
-            console.log(index);
 
             if (index <= 3) {
               const { name, office, description, mainImage } = data;

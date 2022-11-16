@@ -38,14 +38,16 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
     loginModal(true)
   }
 
-  const registerUser = async (e) => {
+  const registerUser = async (e: any) => {
     e.preventDefault();
     setLoader(true);
 
     try {
 
       await register(data.email, data.password)
-      router.push("/registerSuccess");
+      if (user) {
+        router.push("/registerSuccess");
+      }
 
     } catch (error) {
       console.log(error);
@@ -63,9 +65,16 @@ const RegisterModal: React.FC<Props> = ({ modal, registerModal, loginModal }) =>
           <h2 className={!RegErrorMessage && `text-2xl bg-red-600 px-5 w-full py-2 rounded shadow text-white font-bold text-center`}>{!RegErrorMessage && 'Register'}</h2>
           <h2 className={RegErrorMessage && `text-2xl bg-red-500 px-5 py-2 rounded shadow text-white font-bold text-center`}>{RegErrorMessage}</h2>
           <div className='flex flex-col'>
-            <label className='text-xl' htmlFor="name">Name: </label>
-            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.name} onChange={(e: any) => setData({
-              ...data, name: e.target.value
+            <label className='text-xl' htmlFor="name">First Name: </label>
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.firstName} onChange={(e: any) => setData({
+              ...data, firstName: e.target.value
+            })} type="text" required />
+          </div>
+
+          <div>
+            <label className='text-xl' htmlFor="departmenet">Last Name: </label>
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:border-red-600' value={data.lastName} onChange={(e: any) => setData({
+              ...data, lastName: e.target.value
             })} type="text" required />
           </div>
 

@@ -3,28 +3,47 @@ import Header from '../components/HomeComponents/Header';
 import { addUser } from "../config/mongodb"
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import { useRouter } from 'next/router';
+import { useAuth } from '../context/AuthContext';
 
 const paymentForm = ({ apiData }) => {
+  const { user } = useAuth()
   const [data, setData] = useState({
     name: '',
     amount: '0',
     department: '',
+    email: '',
     matric_no: '',
+    phone_no: '',
     success: false
 
   });
-  const router = useRouter()
+  const router = useRouter();
+  console.log(apiData);
+
+
+  // const addNapesite = async (id, fullName, email, phone_no, matric_no, department, amount) => {
+  //   const APP_ID = apiData.apiKey;
+  //   const app = new Realm.App({ id: APP_ID });
+  //   const credentials = Realm.Credentials.anonymous();
+
+  //   try {
+  //     const user = await app.logIn(credentials);
+  //     const addUserNow = await user.functions.addNapesite(id, fullName, email, phone_no, matric_no, department, amount)
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   const config = {
     public_key: `${apiData.flutterwave_key}`,
     tx_ref: "NAPES" + Date.now(),
-    amount: 100,
+    amount: data.amount,
     currency: 'NGN',
     payment_options: 'card',
     customer: {
-      email: "johndoe@gmail.com",
-      phone_number: '09058784051',
-      name: 'john doe',
+      email: data.email,
+      phone_number: data.phone_no,
+      name: data.name,
     },
     meta: { counsumer_id: 'user.uid' },
     customizations: {
@@ -42,15 +61,11 @@ const paymentForm = ({ apiData }) => {
       alert("Please enter all values")
     } else {
       setData({ ...data, success: true })
-      console.log(data);
-
-
       handleFlutterPayment({
         callback: (response) => {
           console.log(response);
           if (response.status === "successful") {
-            addUser(response.amount, response.customer.name, response.customer.email, response.customer.phone_number, "default",)
-            setData({ ...data, name: '', amount: '', department: '', matric_no: '' })
+            addUser(response.transaction_id, response.customer.name, response.customer.email, response.customer.phone_number, data.matric_no, data.department, response.amount)
             closePaymentModal()
             router.push("/paymentSuccessful");
           } else {
@@ -81,6 +96,20 @@ const paymentForm = ({ apiData }) => {
             <label className='text-xl' htmlFor="departmenet">Full Name: </label>
             <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:bg-blue-100 focus:border-red-600' value={data.name} onChange={(e) => setData({
               ...data, name: e.target.value
+            })} type="text" required />
+
+          </div>
+          <div>
+            <label className='text-xl' htmlFor="departmenet">Email: </label>
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:bg-blue-100 focus:border-red-600' value={data.email} onChange={(e) => setData({
+              ...data, email: e.target.value
+            })} type="text" required />
+
+          </div>
+          <div>
+            <label className='text-xl' htmlFor="departmenet">Phone No: </label>
+            <input className='input transition ease-linear duration-300 delay-150 focus:border-l-2 focus:bg-blue-100 focus:border-red-600' value={data.phone_no} onChange={(e) => setData({
+              ...data, phone_no: e.target.value
             })} type="text" required />
 
           </div>

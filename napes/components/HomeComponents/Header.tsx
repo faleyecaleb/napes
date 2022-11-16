@@ -3,21 +3,22 @@ import React, { useState } from 'react';
 import Link from 'next/link'
 import { useAuth } from '../../context/AuthContext';
 import { auth } from '../../config/firebase';
+import { MdContacts, MdLocalFireDepartment, MdMenu, MdPeopleAlt } from "react-icons/md";
+import { IoIosPeople } from "react-icons/io"
+import { ImCross, ImUser } from "react-icons/im"
+import { IoNewspaperSharp, IoHome } from "react-icons/io5"
 
 const Header: React.FC = ({ modalControl }) => {
   const navRef = React.useRef();
-  const { user, logout, data, allUser } = useAuth();
+  const { user, logout, data, oneUser } = useAuth();
+  // console.log(oneUser);
+
 
   const [menuClicked, setMenuClicked] = useState(false);
 
   const clickMenu = () => {
     setMenuClicked((prev) => !prev);
-    console.log(menuClicked);
-
   };
-
-
-
 
   const show = () => {
     modalControl(true)
@@ -38,10 +39,9 @@ const Header: React.FC = ({ modalControl }) => {
             <h1 className={`hidden md:text-xl md:block  lg:block lg:text-3xl font-semibold`}>National Association Of Polytechnic Engineering Student (NAPES)</h1>
             <span className='hidden md:block text-red-500 font-bold '>YCT CHAPTER</span>
           </div>
-          <nav className='flex items-center'>
+          <nav className='flex items-start'>
             <ul className='hidden font-sans md:flex sm:flex items-end lg:items-end space-x-12 text-xl'>
               <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/">Home</Link></li>
-              <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/department">Department</Link></li>
               <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/executives">Executives</Link></li>
               <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/principalOfficers">Principal Officers</Link></li>
               <li className='text-gray-600 hover:text-green-800 hover:border-l-2 hover:pl-2 transition-all hover:border-red-600'><Link href="/contact">Contact</Link></li>
@@ -63,51 +63,67 @@ const Header: React.FC = ({ modalControl }) => {
         </div>
       </div>
 
-      <div className='sm:hidden flex w-full h-16 items-center px-6 justify-between bg-cyan-500 shadow-md'>
-        <div onClick={clickMenu} className='space-y-1 cursor-pointer'>
-          <div className={`${menuClicked ? " rotate-45 w-10" : "block"} bg-white w-6 h-1 transition duration-500 ease-in-out`}></div>
-          <div className={`${menuClicked ? "hidden" : "bg-white w-6 h-1 transition duration-500 ease-in-out"}`}></div>
-          <div className={`${menuClicked ? "-rotate-45 w-10 " : "rotate-0 "} bg-white w-6 h-1`}></div>
+      <div className='sm:hidden z-50 flex w-full h-16 items-center px-6 justify-between bg-cyan-500 shadow-md'>
+        <div onClick={clickMenu} className='space-y-1 cursor-pointer transition duration-200 delay-75 ease-linear'>
+          {menuClicked ? <ImCross color='white' size={20} /> : <MdMenu color='white' size={40} />}
         </div>
         <img className='w-20' src="/images/napes.png" alt="" />
-        <div className='rounded-full p-3 bg-gray-600'>
-          <p className='bg-white p-1 rounded-full'></p>
-        </div>
+        <Link href="/dashboard">
+          <div className='rounded-full cursor-pointer p-1 bg-white'>
+            <ImUser size={20} />
+          </div>
+        </Link>
       </div>
 
 
-      <div className={`${menuClicked ? 'translate-x-0' : ' -translate-x-full'} bg-cyan-600 rounded-tr-sm rounded-br-sm text-white font-sans w-full absolute h-screen transition-transform duration-500 ease-in-out`}>
+      <div className={`${menuClicked ? 'translate-x-0' : ' -translate-x-full'} bg-cyan-600 z-50 rounded-tr-sm rounded-br-sm md:hidden text-white font-sans w-full space-x-5 absolute h-screen transition-transform duration-500 ease-in-out`}>
         <div className='bg-cyan-800 flex items-start space-x-3 py-5'>
           <img className='w-1/4 rounded-full' src="/images/css.jpg" alt="" />
           <div>
-            <h2 className='font-bold text-lg text-slate-100'>Caleb Faleye</h2>
-            <p className='text-gray-200 text-sm'>f/nd/19/3450040</p>
+            <h2 className='font-bold text-lg text-slate-100'>{oneUser?.firstName} {oneUser?.lastName}</h2>
+            <p className='text-gray-200 text-sm'>{oneUser?.matric_no}</p>
           </div>
         </div>
-        <div className='flex flex-col items-start justify-between space-y-8 text-xl mt-4 pl-5'>
-          <div className='flex space-x-4 items-center'>
-            <img className='w-1/6 rounded-full' src="/images/angular.jpg" alt="" />
-            <p>Dashboard</p>
-          </div>
-          <div className='flex space-x-4 items-center'>
-            <img className='w-1/6 rounded-full' src="/images/javascript.jpg" alt="" />
-            <p>Withdraw</p>
-          </div>
-          <div className='flex space-x-4 items-center'>
-            <img className='w-1/6 rounded-full' src="/images/node.js.jpg" alt="" />
-            <p>Trading</p>
-          </div>
-          <div className='flex space-x-4 items-center'>
-            <img className='w-1/6 rounded-full' src="/images/java.jpg" alt="" />
-            <p>Refer</p>
-          </div>
-          <div className='flex space-x-4 items-center'>
-            <img className='w-1/6 rounded-full' src="/images/github.jpg" alt="" />
-            <p>Profile</p>
-          </div>
-          <div className='bg-red-800 py-2 cursor-pointer px-10 rounded-sm shadow'>
-            <p onClick={logoutUser} className="cursor-pointer">Logout</p>
-          </div>
+        <div className='flex flex-col items-start justify-between space-y-8 text-xl mt-4'>
+          <Link href="/">
+            <div className='flex w-full cursor-pointer space-x-4 items-center'>
+              <IoHome />
+              <p>Home</p>
+            </div>
+          </Link>
+          <Link href="/department">
+            <div className='flex w-full cursor-pointer  space-x-4 items-center'>
+              <MdLocalFireDepartment />
+              <p>Department</p>
+            </div>
+          </Link>
+          <Link href="/executives" >
+            <div className='flex cursor-pointer w-full space-x-4 items-center'>
+              <MdPeopleAlt />
+              <p>Executives</p>
+            </div>
+          </Link>
+          <Link href="/principalOfficers">
+            <div className='flex cursor-pointer w-full space-x-4 items-center'>
+              <IoIosPeople />
+              <p>Principal Officers</p>
+            </div>
+          </Link>
+          <Link href="/news">
+            <div className='flex cursor-pointer w-full space-x-4 items-center'>
+              <IoNewspaperSharp />
+              <p>News & Event</p>
+            </div>
+          </Link>
+          <Link href="/contact">
+            <div className='flex cursor-pointer  w-full space-x-4 items-center'>
+              <MdContacts />
+              <p>Contact</p>
+            </div>
+          </Link>
+        </div>
+        <div className='bg-red-700 mt-5 mx-auto w-1/3 cursor-pointer py-2 flex justify-center rounded-md shadow'>
+          <p onClick={logoutUser} className="cursor-pointer">Logout</p>
         </div>
       </div>
     </header>

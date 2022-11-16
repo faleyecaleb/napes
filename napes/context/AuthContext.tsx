@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from "../config/firebase";
-import { addUser } from "../config/mongodb";
 import { useRouter } from "next/router";
 import * as Realm from 'realm-web';
 
@@ -12,15 +11,17 @@ export const useAuth = () => useContext(AuthContext)
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [name, setName] = useState("Calebu");
-  const [allUser, setAllUser] = useState([]);
+  const [oneUser, setOneUser] = useState([]);
   const [loader, setLoader] = useState(false)
-  const [isExist, setIsExist] = useState(false)
+  const [isExist, setIsExist] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const [RegErrorMessage, setErrorMessage] = useState("");
   const [LogErrorMessage, setLogErrorMessage] = useState("")
   const router = useRouter()
   const [data, setData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     department: '',
     matric: '',
@@ -44,50 +45,69 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     })
 
     return () => unsubscribe()
-  }, [])
+  }, []);
 
+  const addUser = async (id, firstName, lastName, email, matric_no, department) => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ROUTE + '/');
+    const data = await res.json();
 
-  const fetchAllProducts = async () => {
-    const REALM_APP_ID = "napes-website-wawfl";
-    const app = new Realm.App({ id: REALM_APP_ID });
+    const APP_ID = data.apiKey
+    const app = new Realm.App({ id: `${APP_ID}` });
     const credentials = Realm.Credentials.anonymous();
 
     try {
       const user = await app.logIn(credentials);
-      const allProducts = await user.functions.getAllUsers();
+      const addUserNow = await user.functions.addUser(id, firstName, lastName, email, matric_no, department)
+    } catch (error) {
+      console.log(error);
+    }
 
-      setAllUser(allProducts);
+  }
+
+
+  const fetchAllProducts = async (userId: string) => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ROUTE + '/');
+    const data = await res.json();
+
+    const APP_ID = data.apiKey;
+    const app = new Realm.App({ id: APP_ID });
+    const credentials = Realm.Credentials.anonymous();
+
+    try {
+      const user = await app.logIn(credentials);
+      const myUser = await user.functions.getOneUser(userId)
+
+      setOneUser(myUser);
     } catch (error) {
       console.log(error)
     }
   }
 
-
-  useEffect(() => {
-    fetchAllProducts()
-  }, [])
-
-  const register = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password).then(cred => {
-      addUser(cred.user.uid, data.name, `${cred.user.email}`, data.matric, data.department)
-      // const objID = cred.user.uid;
-      // const fil = allUser.some((o) => data.matric === o.matric)
-      // if (!fil) {
+  console.log("My User Data: ", oneUser);
 
 
-      // } else {
-      //   console.log("Inside...")
 
-      // }
+  // useEffect(() => {
+  //   if(user) {
+  //     console.log(user);
+  //   } else{
+  //     console.log("No user");
 
-    }).catch(error => {
-      console.log(error.code);
+  //   }
+  // }, [])
 
-      setLoader(false)
-      switch (error.code) {
+  const register = async (email: string, password: string) => {
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      addUser(cred.user.uid, data.firstName, data.lastName, `${cred.user.email}`, data.matric, data.department);
+    } catch (error) {
+      console.log(error?.code);
+
+      setLoader(false);
+      switch (error?.code) {
 
         case 'auth/email-already-in-use':
-          setErrorMessage("Email already exist")
+          setErrorMessage("Email already exist");
 
           break;
         case 'auth/missing-email':
@@ -98,14 +118,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           break;
 
       }
-    })
+    }
 
   }
-  const login = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password).then((cred) => [
-
-    ]).catch(error => {
-      setLoader(false)
+  const login = async (email: string, password: string) => {
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      return [];
+    } catch (error) {
+      setLoader(false);
       console.log(error.code);
 
       switch (error.code) {
@@ -113,10 +134,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           setLogErrorMessage("You are not Registered!");
           break;
         case 'auth/internal-error':
-          setLogErrorMessage("Please enter your password correctly...")
+          setLogErrorMessage("Please enter your password correctly...");
 
         case 'auth/wrong-password':
-          setLogErrorMessage("Please enter a correct password")
+          setLogErrorMessage("Please enter a correct password");
 
           break;
         case 'auth/missing-email':
@@ -127,16 +148,24 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           break;
 
       }
-
-    })
+    }
   }
+
+  if (user) {
+    fetchAllProducts(user.uid)
+
+  } else {
+    console.log("No User Again!!");
+
+  }
+
 
   const logout = async () => {
     setUser(null);
     setLoader(false)
     await signOut(auth)
   }
-  return <AuthContext.Provider value={{ user, allUser, login, register, logout, setName, name, data, setData, RegErrorMessage, LogErrorMessage, setLoader, loader }}>
+  return <AuthContext.Provider value={{ user, oneUser, login, register, logout, setName, name, data, setData, RegErrorMessage, LogErrorMessage, setLoader, loader }}>
     {loading ? null : children}
   </AuthContext.Provider>
 }

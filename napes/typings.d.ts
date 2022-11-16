@@ -11,3 +11,16 @@ export interface Data {
   body: [object]
 
 }
+
+export interface News {
+  _id: string,
+  _ref: string,
+  _type: string,
+  _createdAt: string,
+  title: string,
+  description: string,
+  publishedAt: string,
+  mainImage: {
+    asset: string
+  }
+}
